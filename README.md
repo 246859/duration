@@ -1,6 +1,11 @@
 # duration
 duration Marshaler and UnMarshaler support
 
+## install
+```bash
+go get -u github.com/246859/duration
+```
+
 ## Usage
 
 Marshaler
