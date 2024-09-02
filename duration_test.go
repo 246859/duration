@@ -7,7 +7,7 @@ import (
 )
 
 type example struct {
-	D *Duration `json:"d"`
+	D Duration `json:"d"`
 }
 
 func TestJsonUnmarshal(t *testing.T) {

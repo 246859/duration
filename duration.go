@@ -5,12 +5,25 @@ import (
 	"time"
 )
 
-func From(duration time.Duration) *Duration {
-	d := Duration(duration)
-	return &d
+const (
+	Nanosecond  = Duration(time.Nanosecond)
+	Microsecond = Duration(time.Microsecond)
+	Millisecond = Duration(time.Millisecond)
+	Second      = Duration(time.Second)
+	Minute      = Duration(time.Minute)
+	Hour        = Duration(time.Hour)
+)
+
+func From(duration time.Duration) Duration {
+	return Duration(duration)
 }
 
+// Duration is a wrapper of time.Duration, which implements TextUnmarshaler, TextMarshaler, MarshalJSON()
 type Duration time.Duration
+
+func (d Duration) String() string {
+	return time.Duration(d).String()
+}
 
 func (d *Duration) UnmarshalText(text []byte) error {
 	if d == nil {
@@ -24,19 +37,13 @@ func (d *Duration) UnmarshalText(text []byte) error {
 	return nil
 }
 
-func (d *Duration) MarshalText() (text []byte, err error) {
-	if d == nil {
-		return []byte{}, err
-	}
-	s := time.Duration(*d).String()
+func (d Duration) MarshalText() (text []byte, err error) {
+	s := time.Duration(d).String()
 	return []byte(s), nil
 }
 
-func (d *Duration) MarshalJSON() ([]byte, error) {
-	if d == nil {
-		return []byte{}, nil
-	}
-	s := time.Duration(*d).String()
+func (d Duration) MarshalJSON() ([]byte, error) {
+	s := time.Duration(d).String()
 	return []byte(strconv.Quote(s)), nil
 }
 
